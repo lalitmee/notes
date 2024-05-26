@@ -1,0 +1,5 @@
+* Nysaa Web Sessions
+
+** Landing URLs
+
+   - This is the URL of the landing page [[https://nysaa.com/?utm_source=programmatic&utm_medium=youtube&utm_campaign=pr_pa_nya_brn_pb_yt_vv_br_launch-video_apr-24_post-boost&utm_content=all_pro_int_interest_store-launch+na_eng_skp_store-launch_37s_web_na&wbraid=ClcKCAjwir2xBhBdEkcALSVnTUVS3VcKqVK8dSZVE-fUzKlgVEXnrOp6jG5d06_V_JjkdtFbOq4bdt_M5unc3SqqaEEVXgIP_vKnfgQ8q1P72GcmuRoCgIk][Landing Page Url]]

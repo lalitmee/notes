@@ -1,0 +1,24 @@
+* Purchase Event Script Ideas
+
+** Events count
+
+   - We can use /localStorage/ to set our own /first_time_accessed/ key to /true/
+     if it is the first time the events will trigger otherwise we will not trigger
+     the /PURCHASE/ and /ADD_PAYMENT_INFO/ events.
+
+     We can use something like this:
+
+     #+BEGIN_SRC js
+     // Check if the page is being visited for the first time ever (across sessions)
+     if (!localStorage.getItem('visited')) {
+       // Code to execute if the page is being visited for the first time
+       console.log("Welcome! This is your first visit.");
+
+       // Set a flag in localStorage to indicate that the user has visited the page
+       localStorage.setItem('visited', true);
+
+     } else {
+       // Code to execute if the page is being refreshed
+       console.log("Welcome back! You are refreshing the page.");
+     }
+     #+END_SRC

@@ -1,0 +1,11 @@
+* Google Team Catchup - 3:00pm - 4:00pm
+
+** Notes
+   - Raj mentioned that orders can grow till December after we fix the issues
+     that are there in the current application
+
+** Offerings
+   Alternatives for Data Visualization (Big Query)
+
+   - Google Data Studio
+   - Looker Studio

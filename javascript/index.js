@@ -1,20 +1,14 @@
-const arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+const a = "9";
+const b = "10";
 
-const indexOfOne = arr.indexOf(1);
+console.log(a > b);
 
-console.log("This is the outer level");
-console.group();
-console.log("Level 2");
-console.group();
-console.log("Level 3");
-console.warn("More of level 3");
-console.groupEnd();
-console.log("Back to level 2");
-console.groupEnd();
-console.log("Back to the outer level");
+console.log(typeof null);
+console.log(typeof undefined);
 
-const string = "Hello World ##";
+// ==================
 
-const replacedString = string.replace(/## /g, "## Hello ##");
+// const a = "19";
+// const b = "10";
 
-console.log(replacedString);
+// console.log(a > b);

@@ -1,0 +1,38 @@
+### collection by id
+
+POST https://nessa-web.myshopify.com/api/2021-01/graphql.json
+
+Content-Type: application/json
+x-shopify-storefront-access-token: 21e08cf61cf49aa6aa76a10f11c417f8
+
+{
+        "query": "query getCollectionIdFromHandle($id: ID!) { collection(id: $id) { id description seo { title description } } }",
+        "variables": {
+                "id": "gid://shopify/Collection/404521222360"
+        }
+}
+
+### collection by handle
+
+POST https://nessa-web.myshopify.com/api/2021-01/graphql.json
+
+Content-Type: application/json
+x-shopify-storefront-access-token: 21e08cf61cf49aa6aa76a10f11c417f8
+
+{
+        "query": "query getCollectionIdFromHandle($handle: String!) { collectionByHandle(handle: $handle) { id title image { url } description seo { title description } } }",
+        "variables": {
+                "handle": "makeup"
+        }
+}
+
+### Collections list
+
+POST https://nessa-web.myshopify.com/api/2021-01/graphql.json
+
+Content-Type: application/json
+x-shopify-storefront-access-token: 21e08cf61cf49aa6aa76a10f11c417f8
+
+{
+        "query": "query getCollections { collections(first: 250, sortKey: TITLE) { edges { node { id title handle seo { title description } } }} }"
+}

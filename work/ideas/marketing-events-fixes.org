@@ -1,0 +1,7 @@
+* Marketing Events Refactoring Ideas
+
+** MoEngage Events
+   Refactoring of MoEngage Events
+
+  - We can send a `json` like `object` with all the properties in `snake_case`(as
+    Moengage expects) that needs to be added in a specific event.

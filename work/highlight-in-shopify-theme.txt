@@ -1,0 +1,15 @@
+      <!-- Highlight integration START -->
+      <!-- to integrate highlight with shopify theme -->
+      <script src="https://unpkg.com/highlight.run"></script>
+      <script>
+        // NOTE: intialize Highlight
+        H.init('ldwqv9ld', {
+            environment: 'production',
+            networkRecording: {
+                enabled: true,
+                recordHeadersAndBody: true,
+                urlBlocklist: [],
+            },
+        });
+      </script>
+      <!-- Highlight integration ENDS -->
