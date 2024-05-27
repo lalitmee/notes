@@ -3,3 +3,5 @@
 
 ** Neovim
    nvim related things to do
+
+   - [ ] checkout [[https://github.com/carbon-steel/detour.nvim][detour]]
