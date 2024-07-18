@@ -1,0 +1,47 @@
+/** "{&quot;userId&quot;=&gt;&quot;HrX1lnNKDoRSTIbZ44iSbsalDFJ2&quot;, &quot;mobileNumber&quot;=&gt;&quot;+971508181289&quot;, &quot;categories&quot;=&gt;&quot;{&quot;8164172038360&quot;=&gt;{&quot;id&quot;=&gt;8164172038360,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Brows&quot;,&quot;itemCategory3&quot;=&gt;&quot;Brow Pencils &amp; Powder&quot;},&quot;8164175741144&quot;=&gt;{&quot;id&quot;=&gt;8164175741144,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Eyes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Mascara&quot;},&quot;8164175053016&quot;=&gt;{&quot;id&quot;=&gt;8164175053016,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Tools and Brushes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Eye Brush&quot;},&quot;8164178428120&quot;=&gt;{&quot;id&quot;=&gt;8164178428120,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Eyes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Eye Pencils&quot;},&quot;8164191731928&quot;=&gt;{&quot;id&quot;=&gt;8164191731928,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Eyes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Mascara&quot;},&quot;8164194418904&quot;=&gt;{&quot;id&quot;=&gt;8164194418904,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Tools and Brushes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Face Brush&quot;},&quot;8164194025688&quot;=&gt;{&quot;id&quot;=&gt;8164194025688,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Tools and Brushes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Face Brush&quot;},&quot;8164200874200&quot;=&gt;{&quot;id&quot;=&gt;8164200874200,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Eyes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Eyeshadow&quot;},&quot;8164200087768&quot;=&gt;{&quot;id&quot;=&gt;8164200087768,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Eyes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Eye Pencils&quot;},&quot;8164205854936&quot;=&gt;{&quot;id&quot;=&gt;8164205854936,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Face&quot;,&quot;itemCategory3&quot;=&gt;&quot;Foundation&quot;},&quot;8164212572376&quot;=&gt;{&quot;id&quot;=&gt;8164212572376,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Face&quot;,&quot;itemCategory3&quot;=&gt;&quot;Loose Powder&quot;},&quot;8168140800216&quot;=&gt;{&quot;id&quot;=&gt;8168140800216,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Tools and Brushes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Eye Brush&quot;},&quot;8168144109784&quot;=&gt;{&quot;id&quot;=&gt;8168144109784,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Face&quot;,&quot;itemCategory3&quot;=&gt;&quot;Concealer &amp; Correctors&quot;},&quot;8168147189976&quot;=&gt;{&quot;id&quot;=&gt;8168147189976,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Tools and Brushes&quot;,&quot;itemCategory3&quot;=&gt;&quot;&quot;},&quot;8168148697304&quot;=&gt;{&quot;id&quot;=&gt;8168148697304,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Eyes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Mascara&quot;},&quot;8168148009176&quot;=&gt;{&quot;id&quot;=&gt;8168148009176,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Eyes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Mascara&quot;},&quot;8168154693848&quot;=&gt;{&quot;id&quot;=&gt;8168154693848,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Eyes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Eyeliner&quot;},&quot;8168154202328&quot;=&gt;{&quot;id&quot;=&gt;8168154202328,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Tools and Brushes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Face Brush&quot;},&quot;8168154398936&quot;=&gt;{&quot;id&quot;=&gt;8168154398936,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Tools and Brushes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Face Brush&quot;},&quot;8168160231640&quot;=&gt;{&quot;id&quot;=&gt;8168160231640,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Eyes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Mascara&quot;},&quot;8168165179608&quot;=&gt;{&quot;id&quot;=&gt;8168165179608,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Eyes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Eyeshadow&quot;},&quot;8168170914008&quot;=&gt;{&quot;id&quot;=&gt;8168170914008,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Brows&quot;,&quot;itemCategory3&quot;=&gt;&quot;Brow Mascara&quot;},&quot;8175259156696&quot;=&gt;{&quot;id&quot;=&gt;8175259156696,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Face&quot;,&quot;itemCategory3&quot;=&gt;&quot;Pressed Powder&quot;},&quot;8188864331992&quot;=&gt;{&quot;id&quot;=&gt;8188864331992,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Tools and Brushes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Brush Sets&quot;},&quot;8188867772632&quot;=&gt;{&quot;id&quot;=&gt;8188867772632,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Nails&quot;,&quot;itemCategory3&quot;=&gt;&quot;Nail Care&quot;},&quot;8188867903704&quot;=&gt;{&quot;id&quot;=&gt;8188867903704,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Nails&quot;,&quot;itemCategory3&quot;=&gt;&quot;Nail Care&quot;},&quot;8188870983896&quot;=&gt;{&quot;id&quot;=&gt;8188870983896,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Face&quot;,&quot;itemCategory3&quot;=&gt;&quot;&quot;},&quot;8188871016664&quot;=&gt;{&quot;id&quot;=&gt;8188871016664,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Tools and Brushes&quot;,&quot;itemCategory3&quot;=&gt;&quot;Eye Brush&quot;},&quot;8188871213272&quot;=&gt;{&quot;id&quot;=&gt;8188871213272,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Nails&quot;,&quot;itemCategory3&quot;=&gt;&quot;Nail Art Kits&quot;},&quot;8188872130776&quot;=&gt;{&quot;id&quot;=&gt;8188872130776,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Face&quot;,&quot;itemCategory3&quot;=&gt;&quot;&quot;},&quot;8145949556952&quot;=&gt;{&quot;id&quot;=&gt;8145949556952,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Lips&quot;,&quot;itemCategory3&quot;=&gt;&quot;Liquid Lipstick&quot;},&quot;8164171088088&quot;=&gt;{&quot;id&quot;=&gt;8164171088088,&quot;itemCategory&quot;=&gt;&quot;Makeup&quot;,&quot;itemCategory2&quot;=&gt;&quot;Brows&quot;,&quot;itemCategory3&quot;=&gt;&quot;Brow Gel&quot;}}&quot;}";
+ */
+
+var attributesDataAsString =
+  "{&quot;userId&quot;=&gt;&quot;7Q9ovTt9XTZxWFdria41c5S2zu23&quot;, &quot;mobileNumber&quot;=&gt;&quot;+971123456789&quot;, &quot;categories&quot;=&gt;&quot;{&quot;8629386477733&quot;:{&quot;id&quot;:8629386477733,&quot;itemCategory&quot;:&quot;Skincare&quot;,&quot;itemCategory2&quot;:&quot;Toners&quot;,&quot;itemCategory3&quot;:&quot;Toners &amp; Mists&quot;},&quot;8629386641573&quot;:{&quot;id&quot;:8629386641573,&quot;itemCategory&quot;:&quot;Skincare&quot;, &quot;itemCategory2&quot;:&quot;Masks&quot;, &quot;itemCategory3&quot;:&quot;Masks &amp; Peels&quot;},&quot;8629387460773&quot;:{&quot;id&quot;:8629387460773,&quot;itemCategory&quot;:&quot;Skincare&quot;, &quot;itemCategory2&quot;:&quot;Moisturizers&quot;, &quot;itemCategory3&quot;:&quot;Night Cream&quot;}}&quot;}";
+
+function parseShopifyAttributes(attributesDataAsString) {
+  let cleanedString = attributesDataAsString
+    .replace(/=&gt;/g, ":") // Replace "=>" with ":"
+    .replace(/&quot;/g, '"') // Replace "&quot;" with '"'
+    .replace(/&amp;/g, "&"); // Replace "&amp;" with "&"
+
+  // 1. Fix categories string and parse the entire JSON
+  const regex = /"categories":"({.*})"/;
+  const match = cleanedString.match(regex);
+
+  if (match && match[1]) {
+    // Make sure we have categories data
+    const fixedCategories = match[1].replace(
+      /(\d+):/g,
+      (match, p1) => `"${p1}":`, // Quote the category ID keys
+    );
+
+    cleanedString = cleanedString.replace(
+      regex,
+      `"categories":${fixedCategories}`,
+    );
+  }
+
+  // 2. Parse the cleaned JSON
+  let attributesData = JSON.parse(cleanedString);
+
+  return attributesData;
+}
+
+// Usage
+const attributesData = parseShopifyAttributes(attributesDataAsString);
+console.log(attributesData); // Output: "7Q9ovTt9XTZxWFdria41c5S2zu23"
+
+const encodedAttributes =
+  "eyJ1c2VySWQiOiI3UTlvdlR0OVhUWnhXRmRyaWE0MWM1UzJ6dTIzIiwibW9iaWxlTnVtYmVyIjoiKzk3MTEyMzQ1Njc4OSIsImNhdGVnb3JpZXMiOnsiODYyOTM4NzQ2MDc3MyI6eyJpZCI6ODYyOTM4NzQ2MDc3MywiaXRlbUNhdGVnb3J5IjoiU2tpbmNhcmUiLCJpdGVtQ2F0ZWdvcnkyIjoiTW9pc3R1cml6ZXJzIiwiaXRlbUNhdGVnb3J5MyI6Ik5pZ2h0IENyZWFtIn19LCJpc0d1ZXN0Q2hlY2tvdXQiOiJObyJ9";
+
+const decodedAttributes = Buffer.from(encodedAttributes, "base64").toString(
+  "utf-8",
+);
+// __AUTO_GENERATED_PRINT_VAR_START__
+console.log(" decodedAttributes:", { parsed: JSON.parse(decodedAttributes) }); // __AUTO_GENERATED_PRINT_VAR_END__

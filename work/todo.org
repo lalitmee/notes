@@ -1,0 +1,13 @@
+* TODOs
+** Marketing
+   - Category data from firestore is failing sometimes.
+   - Check for the final price of the order for the ~purchase~ event.
+   - Referral is coming from ~nysaa-web.myshopify.com~ in the attribution. Check
+     in dev GTM
+** UI Improvements
+   - Add ~min-width: fit-content~ to *Select Option* in the Product Action
+     component
+
+* Issues
+  - Wishlist icon is keep on loading.
+  - Add To Bag button is failing when there is no product in the cart.

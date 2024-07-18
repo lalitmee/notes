@@ -5,3 +5,5 @@
    nvim related things to do
 
    - [ ] checkout [[https://github.com/carbon-steel/detour.nvim][detour]]
+   - integrate [[polarmutex/git-worktree][https://github.com/polarmutex/git-worktree.nvim]] for `Git
+     Worktree`

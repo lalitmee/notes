@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0"
+    >
+    <meta name="referrer" content="origin">
+
+    <title>{{ page_title }}</title>
+
+    {{ content_for_header }}
+
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+
+    {% comment %} Added by spurthi.hegde@nessa.com on Feb 21, 2022 to hide discount section{% endcomment %}
+
+    <style>
+      .order-summary__section.order-summary__section--discount {
+        display: none;
+      }
+
+      .section.section--reductions.hidden-on-desktop {
+        display: none;
+      }
+    </style>
+
+    {% comment %}Releasit Cash On Delivery Fee Shopify Plus checkout code{% endcomment %}
+
+    {% comment %}
+    ****TO DISABLE THIS CODE CHANGE THE true IN THE LINE BELOW IN false****
+    {% endcomment %}
+    {% if true %}
+      <script>
+        var _cod_fee = {
+          commissionName: {{ shop.metafields._cod_fee.commission_name | json }},
+          commission: {{ shop.metafields._cod_fee.commission }},
+          gatewayNames: ["Cash on Delivery"]
+        };
+
+        (function ($) {
+          // NOTE: This is to rearrange the order of the payment options
+          $(document).ready(function() {
+            var tamaraRow, tamaraSecondaryRow, checkoutDotComRow, checkoutDotComSecondaryRow, tabbyRow, tabbySecondaryRow
+            var radioWrapperRow = $('.radio-wrapper.content-box__row')
+            for (let i = 0; i < radioWrapperRow.length; i++) {
+              var radio = radioWrapperRow[i]
+              var text = radio.innerText
+              if (text.includes('Tamara')) {
+                if (radio.classList.contains("content-box__row--secondary")) {
+                  tamaraSecondaryRow = radio
+                } else {
+                  tamaraRow = radio
+                }
+              } else if (text.includes('Checkout.com')){
+                if (radio.classList.contains("content-box__row--secondary")) {
+                  checkoutDotComSecondaryRow = radio
+                } else {
+                  checkoutDotComRow = radio
+                }
+              } else if (text.includes('Tabby')) {
+                if (radio.classList.contains("content-box__row--secondary")) {
+                  tabbySecondaryRow = radio
+                } else {
+                  tabbyRow = radio
+                }
+              }
+            }
+            $(tabbyRow).insertBefore(tamaraRow)
+            $(checkoutDotComRow).insertBefore(tabbyRow)
+
+            $(checkoutDotComSecondaryRow).insertAfter(checkoutDotComRow)
+            $(tabbySecondaryRow).insertAfter(tabbyRow)
+            $(tamaraSecondaryRow).insertAfter(tamaraRow)
+
+            var paymentRadioButtons = $('.input-radio')
+            for (let i = 0; i < paymentRadioButtons.length; i++) {
+              var paymentRadioButton = paymentRadioButtons[i]
+
+              if ($(paymentRadioButton).prop('name') !== 'checkout[different_billing_address]') {
+                if (i === 0) {
+                  paymentRadioButton.checked = true
+                } else {
+                  paymentRadioButton.checked = false
+                }
+              }
+            }
+
+            var radioWrapperRowsSecondary = $('.radio-wrapper.content-box__row--secondary')
+            for (let i = 0; i < radioWrapperRowsSecondary.length; i++) {
+              var radioWrapperRowSecondary = radioWrapperRowsSecondary[i]
+              if (i === 0) {
+                $(radioWrapperRowSecondary).removeClass('hidden')
+              } else {
+                $(radioWrapperRowSecondary).addClass('hidden')
+              }
+            }
+          })
+
+          var withCurrency = function (number) {
+            var currencies = { "USD": "$", "CAD": "CA$", "EUR": "€", "AED": "AED", "AFN": "Af", "ALL": "ALL", "AMD": "AMD", "ARS": "AR$", "AUD": "AU$", "AZN": "man.", "BAM": "KM", "BDT": "Tk", "BGN": "BGN", "BHD": "BD", "BIF": "FBu", "BND": "BN$", "BOB": "Bs", "BRL": "R$", "BWP": "BWP", "BYN": "Br", "BZD": "BZ$", "CDF": "CDF", "CHF": "CHF", "CLP": "CL$", "CNY": "CN¥", "COP": "CO$", "CRC": "₡", "CVE": "CV$", "CZK": "K�?", "DJF": "Fdj", "DKK": "Dkr", "DOP": "RD$", "DZD": "DA", "EEK": "Ekr", "EGP": "EGP", "ERN": "Nfk", "ETB": "Br", "GBP": "£", "GEL": "GEL", "GHS": "GH₵", "GNF": "FG", "GTQ": "GTQ", "HKD": "HK$", "HNL": "HNL", "HRK": "kn", "HUF": "Ft", "IDR": "Rp", "ILS": "₪", "INR": "Rs", "IQD": "IQD", "IRR": "IRR", "ISK": "Ikr", "JMD": "J$", "JOD": "JD", "JPY": "¥", "KES": "Ksh", "KHR": "KHR", "KMF": "CF", "KRW": "₩", "KWD": "KD", "KZT": "KZT", "LBP": "L.L.", "LKR": "SLRs", "LTL": "Lt", "LVL": "Ls", "LYD": "LD", "MAD": "MAD", "MDL": "MDL", "MGA": "MGA", "MKD": "MKD", "MMK": "MMK", "MOP": "MOP$", "MUR": "MURs", "MXN": "MX$", "MYR": "RM", "MZN": "MTn", "NAD": "N$", "NGN": "₦", "NIO": "C$", "NOK": "Nkr", "NPR": "NPRs", "NZD": "NZ$", "OMR": "OMR", "PAB": "B/.", "PEN": "S/.", "PHP": "₱", "PKR": "PKRs", "PLN": "zł", "PYG": "₲", "QAR": "QR", "RON": "RON", "RSD": "din.", "RUB": "RUB", "RWF": "RWF", "SAR": "SR", "SDG": "SDG", "SEK": "Skr", "SGD": "S$", "SOS": "Ssh", "SYP": "SY£", "THB": "฿", "TND": "DT", "TOP": "T$", "TRY": "TL", "TTD": "TT$", "TWD": "NT$", "TZS": "TSh", "UAH": "₴", "UGX": "USh", "UYU": "$U", "UZS": "UZS", "VEF": "Bs.F.", "VND": "₫", "XAF": "FCFA", "XOF": "CFA", "YER": "YR", "ZAR": "R", "ZMK": "ZK", "ZWL": "ZWL$" };
+
+            var symbol = "$";
+            if (currencies[Shopify.Checkout.currency]) {
+              symbol = currencies[Shopify.Checkout.currency];
+            }
+
+            var result = symbol;
+            if (Shopify.Checkout.currency == "EUR") {
+              result = "";
+            }
+            result += (number / 100).toFixed(2);
+
+            if (Shopify.Checkout.currency == "EUR") {
+              result = result.replace(".", ",") + " " + symbol;
+            }
+
+            return result;
+          };
+
+          var addCod = function () {
+            if (!document.querySelector("#_cod_fee_commission_line")) {
+              document.querySelector(".total-line.total-line--shipping").insertAdjacentHTML("afterend", '<tr id="_cod_fee_commission_line" class="total-line"><th class="total-line__name" scope="row"> <span> ' + _cod_fee.commissionName + ' </span></th><td class="total-line__price"> <span class="skeleton-while-loading order-summary__emphasis" data-checkout-total-shipping-target="' + _cod_fee.commission + '"> ' + withCurrency(_cod_fee.commission) + ' </span></td></tr>');
+            }
+
+            var total = parseInt($($('[data-checkout-payment-due-target]')[0]).attr("data-checkout-payment-due-target"));
+
+            $("[data-checkout-payment-due-target]").html(withCurrency(total + _cod_fee.commission));
+          };
+
+          var removeCod = function () {
+            $("#_cod_fee_commission_line").remove();
+
+            var total = parseInt($($('[data-checkout-payment-due-target]')[0]).attr("data-checkout-payment-due-target"));
+
+            $("[data-checkout-payment-due-target]").html(withCurrency(total));
+          };
+
+          $(document).on("page:load page:change", function () {
+            document.getElementById('banner-logo').addEventListener('click', () => document.location.href="/cart");
+
+            if (Shopify.Checkout.step === "payment_method") {
+              var checkCod = false;
+
+              _cod_fee.gatewayNames.forEach(function (item) {
+                if ($(".radio-wrapper label:contains(" + item + ")").length) {
+                  checkCod = true;
+                }
+              });
+
+              if (!checkCod) return;
+
+              $('[name="checkout[payment_gateway]"]').change(function (event) {
+                var wrapper = $(this).closest(".radio-wrapper");
+
+                if (wrapper.attr("data-select-gateway") !== "75141939416") {
+                  removeCod()
+                } else {
+                  var isCod = false;
+
+                  _cod_fee.gatewayNames.forEach(function (item) {
+                    if (wrapper.find("label:contains(" + item + ")")) {
+                      isCod = true;
+                    }
+                  });
+
+                  if (isCod) {
+                    addCod();
+                  } else {
+                    removeCod();
+                  }
+                }
+              });
+            }
+          });
+
+          $(document).on("page:change", function () {
+            if (Shopify.Checkout.step === "payment_method") {
+              if ($('[name="checkout[payment_gateway]"]:checked').length) {
+                var checkCod = false;
+
+                _cod_fee.gatewayNames.forEach(function (item) {
+                  if ($('[name="checkout[payment_gateway]"]:checked').closest(".radio-wrapper").find("label:contains(" + item + ")").length) {
+                    checkCod = true;
+                  }
+                });
+
+                if (checkCod) {
+                  addCod();
+                } else {
+                  removeCod();
+                }
+              }
+            }
+          });
+
+          $(document).on("page:load page:change", function () {
+            var isPayByCA = !!location.search.match(new RegExp("isPayByCA=true", "g")) || sessionStorage.getItem('is_ca' + Shopify.Checkout.token);
+
+            if (isPayByCA) {
+              sessionStorage.setItem('is_ca' + Shopify.Checkout.token, 'true')
+            }
+
+            if (isPayByCA)  {
+              document.querySelectorAll('[data-payment-subform="gift_cards"] p')[0].textContent = "Your Order is covered by your Club Apparel Full Redemption"
+            }
+          });
+
+          $(document).on("page:load page:change", function () {
+            var isApplePay = !!location.search.match(new RegExp("isApplePay=true", "g")) || sessionStorage.getItem('is_apple_pay' + Shopify.Checkout.token);
+
+            if (isApplePay) {
+              sessionStorage.setItem('is_apple_pay' + Shopify.Checkout.token, 'true')
+            }
+
+            if (isApplePay)  {
+              document.querySelector('#checkout_payment_gateway_81485496536').checked = true;
+              document.querySelector('#continue_button').click();
+            }
+          });
+
+          $(document).on("page:load page:change", function () {
+            var isApplePayPaid = !!location.search.match(new RegExp("isApplePayPaid=true", "g")) || sessionStorage.getItem('is_apple_pay_paid' + Shopify.Checkout.token);
+
+            if (isApplePayPaid) {
+              sessionStorage.setItem('is_apple_pay_paid' + Shopify.Checkout.token, 'true')
+            } else {
+              const paymentMethod = document.querySelector('[data-payment-method-id="81485496536"]');
+              if (paymentMethod.length) {
+                paymentMethod[0].style = "visibility: hidden"
+              }
+            }
+
+            if (isApplePayPaid)  {
+              document.querySelector('#checkout_payment_gateway_81485496536').checked = true;
+              document.querySelector('#continue_button').click();
+            }
+          });
+        })(Checkout.$);
+      </script>
+    {% endif %}
+  </head>
+  <body>
+    {{ skip_to_content_link }}
+
+    <header class="banner" id="banner-logo" data-header role="banner">
+      <a
+        id="go-back-button"
+        href="javascript:history.back()"
+        style="display: flex; padding: 0.5rem 1rem; color: #001325;"
+        >
+        <img
+        src="https://cdn.shopify.com/s/files/1/0601/2849/3784/files/white-back-icon-back-arrow-icon-white-text-number-symbol-alphabet-transparent-png-2608792.png?v=1649833750"
+        alt="Go Back"
+        style="height: 20px;"
+        >
+        <span style="padding: 0 0.5rem; color: #001325;">Go Back</span>
+      </a>
+        <div class="wrap">
+          {{ content_for_logo }}
+        </div>
+    </header>
+
+    {{ order_summary_toggle }}
+    <div class="content" data-content>
+      <div class="wrap">
+        <div class="main">
+          <header class="main__header" role="banner">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            {{ alternative_payment_methods }}
+          </header>
+          <main class="main__content" role="main">
+            {{ content_for_layout }}
+          </main>
+          <footer class="main__footer" role="contentinfo">
+            {{ content_for_footer }}
+          </footer>
+        </div>
+        <aside class="sidebar" role="complementary" style="background-color: #ffff">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+          </div>
+          <style>
+            .sidebar::after {
+              background: #ffff;
+            }
+            .step__footer__previous-link {
+              display: none;
+            }
+          </style>
+        </aside>
+      </div>
+    </div>
+
+    <template id="cod_template">
+      <tr class="total-line total-line--shipping" id="temp-cod-charges">
+        <th class="total-line__name" scope="row">
+          <span> COD Charges </span>
+        </th>
+        <td class="total-line__price">
+          <span
+            class="skeleton-while-loading order-summary__emphasis"
+            data-checkout-total-shipping-target="0"
+            data-amount="true"
+            >
+          </span>
+        </td>
+      </tr>
+    </template>
+
+    {{ tracking_code }}
+
+    <script>
+      // NOTE: checking for `nessa-web` in the URL, if `true` redirecting 
+      // it to the `nysaa-web` domain
+      // TODO: check if we really need it in the `dev`, if not remove it.
+      function checkAndUpdateUrl() {
+        const currentUrl = window.location.href;
+
+        if (currentUrl.includes('nessa-web')) {
+          const newUrl = currentUrl.replace('nessa-web', 'nysaa-web');
+
+          window.location.href = newUrl;
+        }
+      }
+
+      checkAndUpdateUrl();
+    </script>
+
+    <script>
+      if (!Boolean(window['ApplePaySession']?.canMakePayments)) {
+        const applePayGateway = document.querySelector('[data-select-gateway="81485496536"]');
+        if (applePayGateway) {
+          applePayGateway.style.display = 'none';
+        }
+      }
+    </script>
+
+    {% comment %} Added by LOUNA.AKKAD@nessa.com on Mar 6, 2024 to fix guest checkout{% endcomment %}
+    <script>
+      const reviewBlocks = document.querySelectorAll('.review-block')
+      const reviewBlockLabels = document.querySelectorAll('.review-block__label')
+      const reviewBlockContents = document.querySelectorAll('.review-block__content')
+      if (reviewBlockLabels.length) {
+        reviewBlockLabels[0].style.display = 'none';
+      }
+      if (reviewBlockContents.length) {
+        reviewBlockContents[0].style.display = 'none';
+      }
+      if (reviewBlocks) {
+        reviewBlocks[0].style.display = 'none';
+        reviewBlocks[1].style.borderTop = 'none';
+      }
+      const labelElement = document.querySelector('label[for="checkout_payment_gateway_PaymentContractConfiguration_194379941"]');
+
+      if (labelElement) {
+        // Change the text content to "Card Payment"
+        labelElement.textContent = 'Pay securely with credit/debit card';
+      } else {
+        console.log('Label element not found');
+      }
+
+      const elementsToHide = document.querySelectorAll('.product__description__property, .order-summary__small-text');
+
+      elementsToHide.forEach(element => {
+        const textContent = element.textContent.trim();
+        const updatedTextContent = textContent.replace("message:", "").trim();
+        element.textContent = updatedTextContent;
+      });
+    </script>
+
+    {% comment %} Added by LOUNA.AKKAD@nessa.com on JAN 17, 2023 to add click and collect{% endcomment %}
+    <script>
+      const breadcurmbs = document.getElementsByClassName("breadcrumb")
+      if (breadcurmbs) {
+        breadcurmbs[0].style.display="none"
+      }
+
+      const reviewBlockLinks = document.querySelectorAll('.review-block__link');
+      if (reviewBlockLinks.length) {
+        reviewBlockLinks[0].style.display = 'none';
+        reviewBlockLinks[1].style.display = 'none';
+        if (reviewBlockLinks[2]) {
+          reviewBlockLinks[2].style.display = 'none';
+        }
+      }
+      var isClickAndCollect= !!location.search.match(new RegExp("isClickAndCollect=true", "g"));
+      if (isClickAndCollect) {
+        document.querySelector('[data-select-gateway="75141939416"]').style.display = 'none';
+        document.querySelector('[data-select-gateway="80012869848"]').style.display = 'none';
+        document.getElementsByClassName('review-block__inner')[1].style.display='none'
+      }
+
+      if (Shopify.Checkout.step === 'shipping_method') {
+        if (isClickAndCollect) {
+          document.querySelector('#checkout_shipping_rate_id_shopify-click20and20collect-0_00').click();
+          document.querySelector('#continue_button').click();
+        } else {
+          document.querySelector('[ data-shipping-method="shopify-Click%20And%20Collect-0.00"]').style.display = 'none';
+          if (document.querySelector('#checkout_shipping_rate_id_shopify-free-0_00')==null) {
+            document.querySelector('#checkout_shipping_rate_id_shopify-standard-10_00').click();
+            document.querySelector('#continue_button').click();
+          } else {
+            document.querySelector('#checkout_shipping_rate_id_shopify-free-0_00').click();
+            document.querySelector('#continue_button').click();
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

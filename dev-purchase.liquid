@@ -1,0 +1,729 @@
+<style>
+  :root {
+    --cds-interactive-01: black;
+    --cds-hover-primary: #db77ab;
+    --cds-active-primary: #db77ab;
+  }
+
+  .notice.notice--warning {
+    display: none !important;
+  }
+</style>
+
+<script>
+    // NOTE: intialize GTM
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+        // j.async = true; // NOTE: trying loading synchronously to avoid any race conditions
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-P8NMF243');
+</script>
+
+<iframe src="https://www.nysaa.com/clear-checkout.html" style="display: none"></iframe>
+
+<script
+  type="module"
+  onload="createGoBackToButton()"
+  src="https://1.www.s81c.com/common/carbon/web-components/version/v1.21.0/button.min.js"
+></script>
+
+<script>
+    // getting the transaction id
+    var transactionId = '{{ order.name | default: '' }}'
+
+    /**
+     * Logs a success message to a firebase collection `purchaseEventLogs`.
+     *
+     * @param {object} log - The log object to send to the collection.
+     * @param {string} log.firestoreName - The name of the Firestore collection to log the message to.
+     * @param {string} log.log - The log message to send.
+     * @returns {Promise<void>} - A Promise that resolves when the log message has been successfully sent.
+     */
+    async function logSuccess(log) {
+        var message = log.message || '';
+        var replacedMessage = message.replace(/ ##/g,  ' === ' + transactionId + ' === ##');
+        console.log({ ...log, message: replacedMessage });
+        try {
+            var apiUrl = 'https://us-central1-nessa-ecommerce-prod-kuwait.cloudfunctions.net/setLog';
+            var bodyData = {
+                firestoreName: 'purchaseEventLogs',
+                log: { ...log, message: replacedMessage },
+            };
+            // Make the API call to log the console
+            var response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bodyData),
+            });
+            var data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    /**
+     * Logs an error message to a firebase collection `purchaseEventLogs`.
+     *
+     * @param {object} errorContext - Additional context to include in the error log.
+     * @param {Error} error - The error object to log.
+     * @param {object} [order] - The order object associated with the error, if available.
+     * @returns {Promise<void>} - A Promise that resolves when the error log message has been successfully sent.
+     */
+    async function logError({ error, errorContext = {} }, order = null) {
+        var errorData = {
+            message: `## ERROR: ${transactionId} ##`, 
+            error: JSON.stringify(error),
+            order,
+            ...errorContext
+        }
+        console.log(errorData);
+        console.error(error);
+        try {
+            var apiUrl = 'https://us-central1-nessa-ecommerce-prod-kuwait.cloudfunctions.net/setLog';
+            var bodyData = {
+                firestoreName: 'purchaseEventLogs',
+                log: errorData,
+            };
+            // Make the API call to log the console
+            var response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bodyData),
+            });
+            var data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    /**
+     * Retrieves the refresh count from local storage, initializing it to 0 if it doesn't exist.
+     * @returns {number} The current refresh count.
+     */
+    function getRefreshCount() {
+        let count = localStorage.getItem('refreshCount');
+        if (!count) {
+            // If count is not set, initialize it to 0
+            count = 0;
+        } else {
+            // If count is set, parse it to integer
+            count = parseInt(count);
+        }
+        return count;
+    }
+
+    /**
+     * Attempts to parse the order's custom attributes from the Liquid template data.
+     *
+     * @returns {object|null} - The parsed order attributes, or null if an error occurs.
+     */
+    function getOrderCustomAttributes() {
+        try {
+            var attributesDataAsString = '{{ order.attributes | default: "" }}'
+
+            attributesDataAsString = attributesDataAsString.replace(/&quot;/g, '"');
+            attributesDataAsString = attributesDataAsString.replace(/&gt;/g, "");
+            attributesDataAsString = attributesDataAsString.replace(/=/g, ":");
+
+            // Extract the nested JSON string
+            let nestedJsonStringMatch = attributesDataAsString.match(
+                /"categories":"({.*})"/,
+            );
+            let nestedJsonString = nestedJsonStringMatch[1];
+
+            // Escape the nested JSON string
+            nestedJsonString = nestedJsonString.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+
+            // Replace it back in the original string
+            attributesDataAsString = attributesDataAsString.replace(
+                nestedJsonStringMatch[1],
+                nestedJsonString,
+            );
+
+            var attributes = JSON.parse(attributesDataAsString);
+
+            // Parse the nested JSON string inside the categories key
+            attributes.categories = JSON.parse(attributes.categories);
+
+            return attributes;
+        } catch (error) {
+            logError({
+                errorContext: {
+                    where: "## getOrderCustomAttributes ##",
+                    data: attributesDataAsString,
+                },
+                error,
+            })
+            return null;
+        }
+    }
+
+    /**
+     * Retrieves the customer information from the Shopify order data.
+     *
+     * @returns {object} - An object containing the customer's name, email, first name, ID, last name, and phone number. If an error occurs, an empty object is returned.
+     */
+    function getCustomerFromShopify() {
+        try {
+            var customer = {
+                name: '{{ order.customer.name | default: '' }}',
+                email: '{{ order.customer.email | default: '' }}',
+                firstName: '{{ order.customer.first_name | default: '' }}',
+                id: '{{ order.customer.id | default: '' }}',
+                lastName: '{{ order.customer.last_name | default: '' }}',
+                phone: '{{ order.customer.phone | default: '' }}',
+                ordersCount: '{{ order.customer.orders_count | default: 0 }}',
+                totalSpent: parseFloat('{{ order.customer.total_spent | money_without_currency }}'),
+            }
+            return customer
+        } catch (error) {
+            logError({
+                errorContext: {
+                    where: "## getCustomerFromShopify ##",
+                },
+                error,
+            })
+            return {}
+        }
+    }
+
+    /**
+     * Retrieves the discount applications applied to the Shopify order.
+     *
+     * @returns {Array} - An array of objects representing the discount applications, or an empty array if an error occurs. Each object contains the following properties:
+     *   - targetSelection: The type of line items the discount is applied to.
+     *   - targetType: The type of discount.
+     *   - title: The title of the discount application.
+     *   - totalAllocatedAmount: The total amount of the discount.
+     *   - type: The type of the discount application.
+     *   - value: The value of the discount.
+     *   - valueType: The type of the discount value (e.g. percentage or fixed amount).
+     */
+    function getOrderDiscountApplications() {
+        try {
+            var discountApplicationsData = '{{ order.discount_applications | default: '' }}';
+            if (discountApplicationsData) {
+                var discountApplications = [
+                    {% for discount_application in order.discount_applications %}
+                        {
+                            targetSelection: '{{ discount_application.target_selection }}',
+                            targetType: '{{ discount_application.target_type }}',
+                            title: '{{ discount_application.title }}',
+                            totalAllocatedAmount: parseFloat('{{ discount_application.total_allocated_amount | money_without_currency }}'),
+                            type: '{{ discount_application.type }}',
+                            value: parseFloat('{{ discount_application.value | money_without_currency }}'),
+                            valueType: '{{ discount_application.value_type }}',
+                        }
+                    {% unless forloop.last %},{% endunless %}
+                {% endfor %}
+                ]
+                return discountApplications
+            }
+            return []
+        } catch (error) {
+            logError({
+                errorContext: {
+                    where: "## getOrderDiscountApplications ##",
+                    data: discountApplicationsData,
+                },
+                error,
+            })
+            return []
+        }
+    }
+
+    /**
+     * Calculates the grand total for an order.
+     *
+     * @param {Object} order - The order object.
+     * @returns {Object} - An object containing the grandTotal and totalDiscount.
+     */
+    function calculateGrandTotal(order) {
+        try {
+            // Calculate total discount from discount applications
+            var totalDiscount = order.discountApplications.reduce((total, discount) => total + discount.totalAllocatedAmount, 0);
+
+            // Calculate grand total
+            var grandTotal = order.subTotal + order.shippingPrice + order.codFee - totalDiscount;
+            grandTotal = parseFloat(grandTotal.toFixed(2)); // Round to 2 decimal places
+
+            // If payment type is not cash on delivery (COD), subtract COD fee from grand total
+            var paymentType = order.paymentType;
+            if (paymentType && !paymentType.toLowerCase().includes('(cod)')) {
+                grandTotal -= order.codFee;
+            }
+
+            return { grandTotal, totalDiscount };
+        } catch (error) {
+            logError({
+                errorContext: {
+                    where: "## calculateGrandTotal ##",
+                },
+                error,
+            })
+            return { grandTotal: 0, totalDiscount: 0 };
+        }
+    }
+
+    /**
+     * Retrieves the details of the current Shopify order, including shipping price, total price, tax price, subtotal, COD fee, customer email, payment gateway, customer first and last name, discount applications, customer data, and order attributes.
+     *
+     * @returns {Object} - An object containing the order details, with the following properties:
+     *   - shippingPrice: The shipping price of the order.
+     *   - totalPrice: The total price of the order.
+     *   - taxPrice: The tax price of the order.
+     *   - subTotal: The subtotal of the order.
+     *   - codFee: The COD fee for the order.
+     *   - userEmail: The email of the customer who placed the order.
+     *   - paymentType: The payment gateway used for the order.
+     *   - customerFirstName: The first name of the customer who placed the order.
+     *   - customerLastName: The last name of the customer who placed the order.
+     *   - discountApplications: An array of objects representing the discount applications applied to the order.
+     *   - customer: An object containing the customer data.
+     *   - attributes: An object containing the order attributes.
+     *   - grandTotal: The grand total of the order, including shipping, COD fee, and discounts.
+     */
+    function getOrderDetails() {
+        try {
+            var orderCustomAttributes = getOrderCustomAttributes()
+            var customer = getCustomerFromShopify()
+            var discountApplications = getOrderDiscountApplications()
+
+            // Get the order details
+            var orderDetails = {
+                shippingPrice: parseFloat('{{ order.shipping_price | money_without_currency }}'),
+                totalPrice: parseFloat('{{ order.total_price | money_without_currency }}'),
+                taxPrice: parseFloat('{{ order.tax_price | money_without_currency }}'),
+                subTotal: parseFloat('{{ order.subtotal_price | money_without_currency }}'),
+                codFee: parseFloat('{{ shop.metafields._cod_fee.commission }}') / 100,
+                userEmail: '{{ order.customer.email }}',
+                paymentType: '{{ order.transactions.first.gateway }}',
+                customerFirstName: '{{ order.customer.first_name }}',
+                customerLastName: '{{ order.customer.last_name }}',
+                discountApplications: discountApplications,
+                customer: customer,
+                attributes: orderCustomAttributes,
+                userId: orderCustomAttributes.userId || '',
+                mobileNumber: orderCustomAttributes.mobileNumber || '',
+            }
+
+            var { grandTotal, totalDiscount } = calculateGrandTotal(orderDetails);
+            orderDetails = { ...orderDetails, totalDiscount, grandTotal };
+
+            return { ...orderDetails };
+        } catch (error) {
+            logError({
+                errorContext: {
+                    where: "## getOrderDetails ##",
+                },
+                error
+            });
+            return {}
+        };
+    };
+
+    var orderData = getOrderDetails();
+    var productIds = [];
+    {% for line_item in checkout.line_items %}
+        var productId = Number('{{ line_item.product_id }}');
+        productIds.push(productId);
+    {% endfor %}
+    console.log('## ORDER DETAILS ##', { orderData, productIds });
+    var userType = orderData.userId ? 'SIGNED UP' : 'GUEST';
+    var thankYouPageType = window.location.href.includes('orders') ? 'order' : 'checkout';
+
+    logSuccess({
+        message: '## ' + userType + ' USER placed ' + transactionId + ' ORDER ##',
+        transactionId,
+    });
+
+    logSuccess({
+        message: '## ' + thankYouPageType.toUpperCase() + ' THANK YOU PAGE LOADED ##',
+        transactionId: transactionId,
+        order: orderData,
+        url: window.location.href,
+    });
+
+    /**
+     * Creates a "Continue Shopping" button that is fixed to the bottom of the page and redirects the user to the NYSAA website when clicked.
+     */
+    function createGoBackToButton() {
+        var button = document.createElement('bx-btn');
+        button.kind = 'primary';
+        button.style.position = 'fixed';
+        button.style.bottom = '12px';
+        button.style.zIndex = 9;
+        button.onclick = function () {
+            logSuccess({
+                message: '## USER CLICKED CONTINUE SHOPPING BUTTON ##',
+                transactionId: transactionId,
+                order: orderData,
+            });
+            window.open('https://nysaa-dev.vercel.app', '_self');
+        };
+
+        document.body.appendChild(button);
+
+        var textElement = document.createElement('div');
+        textElement.textContent = 'CONTINUE SHOPPING';
+        textElement.style.marginLeft = '52px';
+        button.append(textElement);
+
+        var divElement = document.createElement('div');
+        divElement.style.display = 'flex';
+        divElement.style.alignItems = 'center';
+        divElement.style.justifyContent = 'center';
+        divElement.appendChild(button);
+        document.body.appendChild(divElement);
+
+        var goBackButton = document.getElementById('go-back-button');
+        goBackButton.style.display = 'none';
+    };
+</script>
+
+{% if first_time_accessed %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+  <script>
+    localStorage.setItem('refreshCount', 0);
+    window.dataLayer = window.dataLayer || [];
+
+    /**
+     * Defines the types of events that can be tracked.
+     * @type {Object}
+     * @property {string} PURCHASE - The event type for a purchase.
+     * @property {string} ADD_PAYMENT_INFO - The event type for adding payment information.
+     */
+    var EVENTS_TYPE = {
+        PURCHASE: 'purchase',
+        ADD_PAYMENT_INFO: 'add_payment_info',
+    };
+
+    /**
+     * Generates a SHA-256 hash of the provided data.
+     *
+     * @param {string} data - The data to be hashed.
+     * @param {string} type - The type of data being hashed.
+     * @returns {string} The SHA-256 hash of the data, or an empty string if the input is invalid.
+     */
+    function generateHashedString(data, type) {
+        try {
+            if (!data || (typeof data === 'string' && data.trim() === '') || typeof data !== 'string') {
+                return ''
+            }
+            return CryptoJS.SHA256(data).toString();
+        } catch (error) {
+            logError({
+                errorContext: {
+                    where: "## generateHashedString ##",
+                    type,
+                    data,
+                },
+                error
+            }, orderData);
+        }
+    };
+
+    /**
+     * Retrieves the product IDs of all the line items in the current checkout.
+     *
+     * @returns {number[]} An array of product IDs.
+     */
+    function getProductIds() {
+        var productIds = [];
+        try {
+            {% for line_item in checkout.line_items %}
+                var productId = Number('{{ line_item.product_id }}');
+                productIds.push(productId);
+            {% endfor %}
+
+            return productIds;
+        } catch (error) {
+            logError({
+                errorContext: {
+                    where: "## getProductIds ##",
+                },
+                error
+            }, orderData);
+            return productIds;
+        };
+    };
+
+    /**
+     * Retrieves the line items from the current checkout and formats them into an array of item objects.
+     *
+     * @param {Object} productCategories - An object mapping product IDs to their category information.
+     * @returns {Array<Object>} An array of item objects, each containing details about a line item in the checkout.
+     */
+    function getItems(productCategories) {
+        try {
+            var items = [];
+            {% for line_item in checkout.line_items %}
+            var itemTitle = '{{ line_item.title | replace: "\'", "\\\'" | replace: '\"', '\\\"' }}';
+            var itemVariant = '{{ line_item.variant.title | replace: "'", "\\'" | replace: '"', '\\"' }}';
+            var itemBrand = '{{ line_item.vendor | replace: "'", "\\'" | replace: '"', '\\"' }}';
+            var itemTitleParts = itemTitle.split(' - ');
+            if (itemTitleParts.length > 1) {
+                itemTitle = itemTitleParts[0];
+            }
+            var productId = Number('{{ line_item.product_id }}');
+            var item = {
+                item_id: '{{ line_item.variant.barcode }}',
+                item_name: itemTitle,
+                item_variant: itemVariant,
+                item_brand: itemBrand,
+                price: parseFloat('{{ line_item.final_price | times: 0.01 }}'),
+                quantity: '{{ line_item.quantity }}'
+            };
+
+            // Add category information if available
+            if (productCategories[productId]) {
+                item.item_category = productCategories[productId].itemCategory || '';
+                item.item_category2 = productCategories[productId].itemCategory2 || '';
+                item.item_category3 = productCategories[productId].itemCategory3 || '';
+            }
+
+            items.push(item);
+            {% endfor %}
+
+            return items
+        } catch (error) {
+            logError({
+                errorContext: {
+                    where: "## getItems ##",
+                },
+                error
+            }, orderData);
+        }
+    }
+
+    /**
+     * Pushes the order data to the data layer for Google Analytics.
+     *
+     * @param {Object} categoryData - An object mapping product IDs to their category information.
+     * @param {Object} userIdData - An object containing the user's hashed email, phone number, and user ID.
+     * @returns {void}
+     */
+    function pushDataLayer(categoryData, userIdData) {
+        try {
+            var hashedUserEmail = generateHashedString(orderData.userEmail, 'email');
+            var hashedUserPhone = generateHashedString(userIdData.phoneNumber, 'phone');
+            var hashedUserId = generateHashedString(userIdData.uid, 'uid');
+
+            var items = getItems(categoryData);
+
+            var ecommerceData = {
+                currency: 'AED',
+                value: orderData.grandTotal,
+                tax: orderData.taxPrice,
+                items: items,
+                userId: userIdData.uid || '',
+                hashedEmail: hashedUserEmail,
+                hashedPhone: hashedUserPhone,
+                hashedUserId: hashedUserId,
+                firstName: orderData.customerFirstName,
+                lastName: orderData.customerLastName
+            };
+
+            // Push the final data to the dataLayer
+            window.dataLayer.push({
+                event: EVENTS_TYPE.ADD_PAYMENT_INFO,
+                ecommerce: {
+                    ...ecommerceData,
+                    payment_type: orderData.paymentType,
+                }
+            });
+
+            window.dataLayer.push({
+                event: EVENTS_TYPE.PURCHASE,
+                ecommerce: {
+                    ...ecommerceData,
+                    transaction_id: transactionId,
+                }
+            });
+
+        } catch (error) {
+            logError({
+                errorContext: {
+                    where: "## pushDataLayer ##",
+                },
+                error
+            }, orderData);
+        }
+    };
+
+    /**
+     * Retrieves the URL parameters from the current page's URL.
+     * @returns {Object} An object containing the URL parameters as key-value pairs.
+     */
+    function getUrlParameters() {
+        var params = {};
+        try {
+            var searchParams = window.location.search.split('&');
+            searchParams.forEach(param => {
+                var splitParamStrs = param.replace('?', '').split('=');
+                params[splitParamStrs[0]] = splitParamStrs[1];
+            })
+            return params;
+        } catch (error) {
+            logError({
+                errorContext: {
+                    where: "## getUrlParameters ##",
+                },
+                error
+            }, orderData);
+            return params;
+        }
+    }
+
+    /**
+     * Listens for and handles the `EVENTS_TYPE.PURCHASE` and `EVENTS_TYPE.ADD_PAYMENT_INFO` events from the dataLayer.
+     * Overrides the default `window.dataLayer.push` function to intercept these events, log their success, and then call the original `push` function.
+     */
+    function listenForEvents() {
+        try {
+            var urlParams = getUrlParameters();
+            var originalPush = window.dataLayer.push;
+
+            // Override the default dataLayer.push function
+            window.dataLayer.push = function () {
+                var pushArguments = arguments;
+                for (let i = 0; i < pushArguments.length; i++) {
+                    var event = pushArguments[i].event
+                    if (event && event === EVENTS_TYPE.PURCHASE) {
+                        // Detected a `EVENTS_TYPE.PURCHASE`
+                        logSuccess({
+                            transactionId: transactionId,
+                            message: '## ' + EVENTS_TYPE.PURCHASE.toUpperCase() + ' Event Fired Successfully ##',
+                            order: orderData,
+                        });
+                    }
+                    if (event && event === EVENTS_TYPE.ADD_PAYMENT_INFO) {
+                        // Detected a `EVENTS_TYPE.ADD_PAYMENT_INFO`
+                        logSuccess({
+                            transactionId: transactionId,
+                            message: '## ' + EVENTS_TYPE.ADD_PAYMENT_INFO.toUpperCase() + ' Event Fired Successfully ##',
+                            paymentType: orderData.paymentType,
+                        });
+                    }
+                }
+                return originalPush.apply(window.dataLayer, pushArguments);
+            };
+        } catch (error) {
+            logError({
+                errorContext: {
+                    where: "## listenForEvents ##",
+                },
+                error
+            }, orderData);
+        }
+    }
+
+    try {
+        var userEmail = orderData.userEmail;
+
+        // fetching categories data using product ids
+        var isGuestUser = userEmail.includes('+guest');
+        var userData = {
+            uid: !isGuestUser ? orderData.userId : '',
+            phoneNumber: !isGuestUser ? orderData.mobileNumber : '',
+        }
+        var categoryData = orderData.attributes.categories
+
+        // pushing to dataLayer in case of guest user
+        pushDataLayer(categoryData, userData);
+
+        // Start listening for purchase events
+        listenForEvents();
+    } catch (error) {
+        logError({
+            errorContext: {
+                where: "## Main ##",
+            },
+            error
+        }, orderData)
+    }
+  </script>
+{% endif %}
+<script>
+    /**
+     * Increments the page refresh count stored in localStorage.
+     */
+    function incrementRefreshCount() {
+        let count = getRefreshCount();
+        localStorage.setItem('refreshCount', ++count);
+    }
+
+    /**
+     * Event listener for the 'beforeunload' event that increments the page refresh count
+     * and logs a success message to the dataLayer.
+     */
+    window.addEventListener('beforeunload', function (event) {
+        // Increment the refresh count
+        incrementRefreshCount();
+        // Cancel the event
+        event.preventDefault();
+        // Chrome requires returnValue to be set
+        event.returnValue = '';
+        logSuccess({
+            message: '## PAGE REFRESHED ##',
+            dataLayer: window.dataLayer || [],
+            refreshCount: getRefreshCount(),
+            transactionId: transactionId,
+        });
+    });
+
+    var gtmLoadedMsg = ''
+
+    /**
+     * Checks if Google Tag Manager is loaded on the page.
+     *
+     * Looks for the 'gtm.start' event in the dataLayer to determine if GTM is loaded.
+     *
+     * @returns {boolean} True if GTM is loaded and working, false otherwise.
+     */
+    function isGtmLoaded() {
+        var gtmStartedEvent = window.dataLayer.find((element) => element['gtm.start']);
+        // Not even the GTM inline config has executed
+        if (!gtmStartedEvent) {
+            gtmLoadedMsg = '## GTM IS NOT LOADED ##';
+            return false;
+        }
+        // GTM inline config has ran, but main GTM js is not loaded (likely AdBlock, NoScript, URL blocking etc.)
+        if (!gtmStartedEvent['gtm.uniqueEventId']) {
+            gtmLoadedMsg = '## GTM IS BLOCKED ##';
+            return false;
+        }
+        // GTM is fully loaded and working
+        gtmLoadedMsg = '## GTM IS LOADED AND WORKING ##';
+        return true;
+    }
+
+    // count of the seconds after which checking of the GTM script will be stopped after clearing the interval
+    var timeout = 0;
+
+    // checking for the GTM script every 500ms
+    var interval = setInterval(() => {
+        if (isGtmLoaded() || timeout === 6) {
+            clearInterval(interval);
+            logSuccess({
+                message: gtmLoadedMsg,
+                transactionId: transactionId,
+                order: orderData,
+                dataLayer: window.dataLayer || [],
+            });
+        } else {
+            ++timeout;
+        }
+    }, 500);
+</script>

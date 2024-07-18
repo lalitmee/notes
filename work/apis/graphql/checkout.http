@@ -1,0 +1,19 @@
+POST https://nysaa-web.myshopify.com/api/2024-04/graphql.json
+
+Content-Type: application/json
+x-shopify-storefront-access-token: 21e08cf61cf49aa6aa76a10f11c417f8
+
+{
+        "query": "mutation useProductAction_addToBagMutation($checkoutId: ID! $lineItems: [CheckoutLineItemInput!]!) { checkoutLineItemsAdd(checkoutId: $checkoutId, lineItems: $lineItems) { checkout { id } checkoutUserErrors { code field message } } }",
+        "variables": {
+                "checkoutId": "Z2lkOi8vc2hvcGlmeS9DaGVja291dC9iZWUyY2I3MGRkZTQ1ZTc5MTcwN2I4Njk0MTYwNTgwMD9rZXk9YWUwNDE3MDJmOWZlMmNjMTgzNDMyOWUxNWMzY2JiOGM=",
+                "lineItems": [
+                        {
+                                "variantId": "gid://shopify/ProductVariant/43674232193189",
+                                "quantity": 2
+                        }
+                ]
+        }
+
+
+}"

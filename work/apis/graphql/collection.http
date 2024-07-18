@@ -20,7 +20,7 @@ Content-Type: application/json
 x-shopify-storefront-access-token: 21e08cf61cf49aa6aa76a10f11c417f8
 
 {
-        "query": "query getCollectionIdFromHandle($handle: String!) { collectionByHandle(handle: $handle) { id title image { url } description seo { title description } } }",
+        "query": "query getCollectionIdFromHandle($handle: String!) { collection(handle: $handle) { id title image { url } description seo { title description } } }",
         "variables": {
                 "handle": "makeup"
         }

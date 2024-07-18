@@ -1,0 +1,7 @@
+POST https://us-central1-nessa-ecommerce-prod.cloudfunctions.net/fetchCategoryInfo
+
+Content-Type: application/json
+
+{
+        "productIds": [8156256796888]
+}

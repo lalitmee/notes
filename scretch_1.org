@@ -1,0 +1,17 @@
+
+[start-dev] RangeError: Maximum call stack size exceeded
+[start-dev]     at file:///Users/lalit.kumar1/Desktop/work/nessa-modern-ecommerce-v2-worktrees/NYSE-1671-items-in-carts-should-stay-saved-even-after-logging-out-of/node_modules/j
+otai/esm/index.mjs:749:37
+[start-dev]     at Object.useReducer (/Users/lalit.kumar1/Desktop/work/nessa-modern-ecommerce-v2-worktrees/NYSE-1671-items-in-carts-should-stay-saved-even-after-logging-out-of/no
+de_modules/react-dom/cjs/react-dom-server.browser.development.js:5081:43)
+[start-dev]     at useReducer (/Users/lalit.kumar1/Desktop/work/nessa-modern-ecommerce-v2-worktrees/NYSE-1671-items-in-carts-should-stay-saved-even-after-logging-out-of/node_modu
+les/react/cjs/react.development.js:1626:21)
+[start-dev]     at useAtomValue (file:///Users/lalit.kumar1/Desktop/work/nessa-modern-ecommerce-v2-worktrees/NYSE-1671-items-in-carts-should-stay-saved-even-after-logging-out-of/
+node_modules/jotai/esm/index.mjs:743:69)
+[start-dev]     at useAtom (file:///Users/lalit.kumar1/Desktop/work/nessa-modern-ecommerce-v2-worktrees/NYSE-1671-items-in-carts-should-stay-saved-even-after-logging-out-of/node_
+modules/jotai/esm/index.mjs:788:5)
+[start-dev]     at useCheckoutId (webpack-internal:///./src/hooks/useCheckoutId.ts:34:99)
+[start-dev]     at useFirebaseAuth (webpack-internal:///./src/features/Authentication/hooks/useFirebaseAuth.ts:66:71)
+[start-dev]     at useFirebaseFunctionsProfile (webpack-internal:///./src/services/firebaseCalls/profile.ts:23:102)
+[start-dev]     at useFirebaseAuth (webpack-internal:///./src/features/Authentication/hooks/useFirebaseAuth.ts:72:99)
+[start-dev]     at useFirebaseFunctionsProfile (webpack-internal:///./src/services/firebaseCalls/profile.ts:23:102)
