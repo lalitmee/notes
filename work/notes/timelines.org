@@ -1,0 +1,9 @@
+* Timelines of the Changes in Purchase Event Script
+  This doc will have all the timelines when I will be making changes in the either the purchase event script of GTM
+
+** Shopify Purchase Event Script
+  - [2024-08-02 Fri 20:50] pushed the changes for purchase event UTM params to
+     PROD script
+
+** Prod GTM
+  - [2024-08-02 Fri 21:01] publish changes for purchase event UTM params

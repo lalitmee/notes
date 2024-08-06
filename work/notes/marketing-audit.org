@@ -1,0 +1,26 @@
+* Marketing Final Demo
+
+** Audit Issues
+   All of the audit issues were fixed
+
+*** dataLayer
+    - event data
+
+*** GTM not getting connected on Thank You page
+    - add GTM script in ~checkout.liquid~
+
+*** Advanced Facebook Matching
+    - integrate Advanced Facebook matching for facebook events
+
+** Purchase Event
+   Fix the purchase event count
+
+   - change ~nessa~ to ~nysaa~
+   - pass product categories data from frontend to shopify
+
+** UTM params attribution
+   building an internal attribution system for marketing
+
+   - store UTM params as soon as the user lands on any page of our application
+   - pass UTM params to shopify from our next.js frontend
+   - log UTM params with the ~purchase~ event

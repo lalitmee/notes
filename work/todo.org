@@ -4,9 +4,13 @@
    - Check for the final price of the order for the ~purchase~ event.
    - Referral is coming from ~nysaa-web.myshopify.com~ in the attribution. Check
      in dev GTM
+
 ** UI Improvements
    - Add ~min-width: fit-content~ to *Select Option* in the Product Action
      component
+
+** Emails
+   - check email from Apurva about Moengage ~Opt In~.
 
 * Issues
   - Wishlist icon is keep on loading.

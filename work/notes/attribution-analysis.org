@@ -1,0 +1,17 @@
+* Attribution Analysis
+
+** Google Ads (only gclid)
+   Sometimes these type of orders are being tagged as *direct* orders. This can
+   happen due to the following reasons:
+
+*** Session Handling
+    1. *Expired Session*: purchase happend after the session expiry time
+       (typically 30 mins)
+    2. *User Behaviour*: user returns to the site via a bookmark or by typing the
+       URM directly after initially coming from a Google Ad.
+
+*** Cross-domain Tracking issues
+    1. *Missing ~gclid~ in Subsequent Visits*: subsequent visits by the user
+       didn't carry ~gclid~
+    2. *Cross-domain Navigation*: navigation b/w cross-domain or subdomain,
+       ensuring the ~gclid~ can be challenging.

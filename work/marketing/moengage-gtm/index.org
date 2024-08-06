@@ -1,0 +1,3 @@
+* MoEnage - GTM integration
+  - Data center => DC_2
+  - Serviceworker custom path => same path that is in the js code of `_app.tsx`

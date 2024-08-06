@@ -1,0 +1,120 @@
+[
+  { "gtm.start": 1722575892470, "event": "gtm.js", "gtm.uniqueEventId": 1 },
+  {
+    "event": "user_data",
+    "ecommerce": {
+      "user": {
+        "firstName": "test",
+        "lastName": "account",
+        "hashedEmail": "1ce0af287f09f4ef8ce49732da0f0831b725a253e331991efc12ff48b5f54e14",
+        "phoneNumber": 971561661399,
+        "dob": 20190521,
+        "gender": "m",
+        "area": "albarshasouth4",
+        "country": "ae",
+        "province": "du",
+        "zip": "",
+        "email": "arun.shinde@nykaa.com"
+      }
+    },
+    "platform": "web",
+    "gtm.uniqueEventId": 2
+  },
+  {
+    "event": "add_payment_info",
+    "ecommerce": {
+      "currency": "AED",
+      "value": 225,
+      "tax": 10.71,
+      "items": [
+        {
+          "item_id": "8719134096026",
+          "item_name": "Black Oudh Scented Candle",
+          "item_variant": "Default Title",
+          "item_brand": "Rituals",
+          "price": 190,
+          "quantity": 1,
+          "item_category": "Fragrance",
+          "item_category2": "Aromatherapy",
+          "item_category3": "Candles"
+        },
+        {
+          "item_id": "5010724527443",
+          "item_name": "Dry Shampoo Divine Dark",
+          "item_variant": "Default Title",
+          "item_brand": "Batiste",
+          "price": 35,
+          "quantity": 1,
+          "item_category": "Hair",
+          "item_category2": "Hair Care",
+          "item_category3": "Dry Shampoo"
+        }
+      ],
+      "userId": "pf9lgj9HBnVSrt1aophlCoeQEY83",
+      "hashedEmail": "1ce0af287f09f4ef8ce49732da0f0831b725a253e331991efc12ff48b5f54e14",
+      "hashedPhone": "b56b4316b9fc3c1ab8f03b2acbe9a23698abcc29e48d44554b9971272f35dfb2",
+      "hashedUserId": "be6db180b090d1cf99b02332d780115cca0913ccc420d00beb7387dcfbc3e780",
+      "firstName": "Test",
+      "lastName": "Account",
+      "payment_type": "gift_card",
+      "utmParams": {
+        "utm_source": "devtest",
+        "utm_medium": "nysaatest",
+        "utm_campaign": "review-with-sushil",
+        "fbclid": "dlfkasjlfajlkdfjauoifjljalkdfjaslifjalekwjflasdjflkasjdgoaljgfldksj"
+      },
+      "platform": "web"
+    },
+    "gtm.uniqueEventId": 3
+  },
+  {
+    "event": "purchase",
+    "ecommerce": {
+      "currency": "AED",
+      "value": 225,
+      "tax": 10.71,
+      "items": [
+        {
+          "item_id": "8719134096026",
+          "item_name": "Black Oudh Scented Candle",
+          "item_variant": "Default Title",
+          "item_brand": "Rituals",
+          "price": 190,
+          "quantity": 1,
+          "item_category": "Fragrance",
+          "item_category2": "Aromatherapy",
+          "item_category3": "Candles"
+        },
+        {
+          "item_id": "5010724527443",
+          "item_name": "Dry Shampoo Divine Dark",
+          "item_variant": "Default Title",
+          "item_brand": "Batiste",
+          "price": 35,
+          "quantity": 1,
+          "item_category": "Hair",
+          "item_category2": "Hair Care",
+          "item_category3": "Dry Shampoo"
+        }
+      ],
+      "userId": "pf9lgj9HBnVSrt1aophlCoeQEY83",
+      "hashedEmail": "1ce0af287f09f4ef8ce49732da0f0831b725a253e331991efc12ff48b5f54e14",
+      "hashedPhone": "b56b4316b9fc3c1ab8f03b2acbe9a23698abcc29e48d44554b9971272f35dfb2",
+      "hashedUserId": "be6db180b090d1cf99b02332d780115cca0913ccc420d00beb7387dcfbc3e780",
+      "firstName": "Test",
+      "lastName": "Account",
+      "transaction_id": "#31802",
+      "utmParams": {
+        "utm_source": "devtest",
+        "utm_medium": "nysaatest",
+        "utm_campaign": "review-with-sushil",
+        "fbclid": "dlfkasjlfajlkdfjauoifjljalkdfjaslifjalekwjflasdjflkasjdgoaljgfldksj"
+      },
+      "platform": "web"
+    },
+    "gtm.uniqueEventId": 4
+  },
+  { "event": "gtm.dom", "gtm.uniqueEventId": 11 },
+  { "ecommerce": { "items": null } },
+  { "ecommerce": { "items": null } }
+]
